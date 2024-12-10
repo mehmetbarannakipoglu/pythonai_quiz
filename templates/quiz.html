@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>AI Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f2f5;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        form {
+            max-width: 600px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            box-sizing: border-box;
+            margin-bottom: 100px;
+        }
+
+        h2 {
+            color: #555;
+            margin-bottom: 10px;
+        }
+
+        input[type="radio"] {
+            margin: 5px 0;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0 20px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"]:hover {
+            background: #45a049;
+        }
+
+        .best-score {
+            position: absolute;
+            top: 10px;
+            right: 20px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        footer {
+            text-align: center;
+            padding: 10px;
+            background: #333;
+            color: #fff;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Popup styles */
+        .popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .popup.active {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .popup-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .popup-content h2 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .popup-content button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .popup-content button:hover {
+            background: #45a049;
+        }
+
+        .popup-table {
+            width: 100%; 
+            border-collapse: collapse;
+        }
+
+        .popup-table th {
+            text-align: center;
+            padding: 8px 12px;
+            font-weight: bold;
+            background-color: #f0f0f0;
+        }
+
+        .popup-table td {
+            padding: 8px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        #showScores {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #showScores:hover {
+            background: #0056b3;
+        }
+
+        #closeScoresPopup {
+            margin-top: 10px;
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #closeScoresPopup:hover {
+            background: #45a049;
+        }
+    </style>
+
+</head>
+
+<body>
+    <h1>AI Quiz</h1>
+    <div>
+        <form id="quizForm">
+            <h2>What is your name?</h2>
+            <input type="text" name="username" required>
+
+            <h2>Question 1: What does AI stand for in Python development?</h2>
+            <input type="radio" name="question1" value="Artificial Intelligence" required> Artificial Intelligence<br>
+            <input type="radio" name="question1" value="Advanced Instructions"> Advanced Instructions<br>
+            <input type="radio" name="question1" value="Automated Inputs"> Automated Inputs<br>
+
+            <h2>Question 2: Which of the following tasks can Computer Vision perform?</h2>
+            <input type="radio" name="question2" value="Recognizing objects in images" required> Recognizing objects in
+            images<br>
+            <input type="radio" name="question2" value="Writing novels"> Writing novels<br>
+            <input type="radio" name="question2" value="Playing music"> Playing music<br>
+
+            <h2>Question 3: What will be the output of the following Python code?</h2>
+            <pre>
+def add_numbers(a, b):
+    return a + b
+
+result = add_numbers(3, 5)
+print(result)
+            </pre>
+            <input type="radio" name="question3" value="8" required> 8<br>
+            <input type="radio" name="question3" value="35"> 35<br>
+            <input type="radio" name="question3" value="Error"> Error<br>
+
+            <h2>Question 4: Which library in Python is commonly used to apply AI models?</h2>
+            <input type="radio" name="question4" value="TensorFlow" required> TensorFlow<br>
+            <input type="radio" name="question4" value="MS Word"> MS Word<br>
+            <input type="radio" name="question4" value="Google Maps"> Google Maps<br>
+
+            <h2>Question 5: Which of these is an example of a Python data structure used in AI?</h2>
+            <input type="radio" name="question5" value="List" required> List<br>
+            <input type="radio" name="question5" value="Folder"> Folder<br>
+            <input type="radio" name="question5" value="Email"> Email<br>
+
+            <input type="submit" value="Submit Answers">
+        </form>
+    </div>
+
+    <div class="best-score">
+        Best Overall Score: <span id="bestScore">{{ best_score }}</span>%
+        <br>
+        <button id="showScores"
+            style="margin-top: 10px; padding: 10px 20px; background: #007bff; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+            Show Best Scores by User
+        </button>
+    </div>
+
+    <!-- Modal -->
+    <div class="popup" id="scoresPopup">
+        <div class="popup-content">
+            <h2>Best Scores by User</h2>
+            <table class="popup-table">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Best Score</th>
+                    </tr>
+                </thead>
+                <tbody id="userScoresTable">
+                    <!-- Dynamic data will show up here -->
+                </tbody>
+            </table>
+
+
+            <button id="closeScoresPopup"
+                style="margin-top: 10px; padding: 10px 20px; background: #4CAF50; color: #fff; border: none; border-radius: 4px; cursor: pointer;">
+                Close
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const showScoresButton = document.getElementById('showScores');
+        const scoresPopup = document.getElementById('scoresPopup');
+        const closeScoresPopup = document.getElementById('closeScoresPopup');
+        const userScoresTable = document.getElementById('userScoresTable');
+
+        // Fetching user scores to display in the modal
+        showScoresButton.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/user-scores');
+                const userScores = await response.json();
+
+                userScoresTable.innerHTML = '';
+
+                userScores.forEach(user => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${user.username}</td>
+                <td style="padding: 8px; border-bottom: 1px solid #ddd;">${user.best_score}</td>
+            `;
+                    userScoresTable.appendChild(row);
+                });
+
+                scoresPopup.classList.add('active');
+            } catch (error) {
+                console.error('Error fetching user scores:', error);
+            }
+        });
+
+        closeScoresPopup.addEventListener('click', () => {
+            scoresPopup.classList.remove('active');
+        });
+    </script>
+
+
+    <footer>
+        Created by Mehmet Baran Nakipoglu
+    </footer>
+
+    <!-- Popup -->
+    <div class="popup" id="popup">
+        <div class="popup-content">
+            <h2 id="popupMessage"></h2>
+            <button id="closePopup">OK</button>
+        </div>
+    </div>
+
+    <script>
+        const form = document.getElementById('quizForm');
+        const popup = document.getElementById('popup');
+        const popupMessage = document.getElementById('popupMessage');
+        const closePopup = document.getElementById('closePopup');
+        const bestScoreElement = document.getElementById('bestScore');
+
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault(); // Prevent the default form submission
+
+            const formData = new FormData(form);
+            const response = await fetch('/submit', {
+                method: 'POST',
+                body: formData
+            });
+
+            const data = await response.json();
+
+           
+            popupMessage.textContent = `Thank you, ${data.username}! Your score is ${data.score}%. Best Score: ${data.best_score}%. Submitted on: ${data.submission_date}.`;
+            popup.classList.add('active');
+
+            bestScoreElement.textContent = data.best_score;
+
+            form.reset();
+        });
+
+
+        closePopup.addEventListener('click', () => {
+            popup.classList.remove('active');
+        });
+    </script>
+</body>
+
+</html>
